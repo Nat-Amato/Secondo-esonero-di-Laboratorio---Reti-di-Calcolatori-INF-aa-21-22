@@ -63,18 +63,18 @@ int main() {
 
 // ASSIGNING A SOCKET ADDRESS
 	int port;
+	char addr[500];
 	memset(&echoServAddr, 0, sizeof(echoServAddr));
 	echoServAddr.sin_family = AF_INET;
 	do {
 		printf("Enter name and port or press ENTER to default: ");
-		char addr[500];
+
 		fflush(stdin);
 		gets(addr);
 		if (strcmp(addr, "") == 0) {
 			strcpy(addr, DEFAULTNAME);
 		}
 		char *token = strtok(addr, ":"); // string separation by returning the DNS
-
 // CONVERSION NAME TO ADDRESS
 		struct hostent *host;
 		host = gethostbyname(token);
@@ -98,6 +98,8 @@ int main() {
 					"Bad port number %i, please insert a port number between 49152 and 65535 \n",
 					port);
 	} while (port < 49152 || port > 65535);
+
+	printf("Server: %s:%i\n\n", addr, port); // print the server info
 
 // BIND DELLA SOCKET
 	if ((bind(sock, (struct sockaddr*) &echoServAddr, sizeof(echoServAddr)))
@@ -161,8 +163,10 @@ int main() {
 			float decpart = tot - intpart;
 			if (decpart != 0.000)
 				sprintf(totC, "%.2f", tot);
-			else
+			else{
+				if (tot == -0) tot = 0; // check and remove the symbol minus if the result is equal to 0
 				sprintf(totC, "%g", tot);
+			}
 			strcat(operation, num1C);
 			strcat(operation, " ");
 			strcat(operation, symbol);
