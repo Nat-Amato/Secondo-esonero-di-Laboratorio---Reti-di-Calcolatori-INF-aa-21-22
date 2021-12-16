@@ -75,11 +75,12 @@ int main() {
 // CONSTRUCTION OF THE SERVER ADDRESS
 	int port;
 	char name[50] = "\0";
+	char addr[500];
 	memset(&echoServAddr, 0, sizeof(echoServAddr));
 	echoServAddr.sin_family = PF_INET;
 	do {
 		printf("Enter name and port or press ENTER to default: ");
-		char addr[500];
+
 		fflush(stdin);
 		gets(addr);
 		if (strcmp(addr, "") == 0){
@@ -109,6 +110,8 @@ int main() {
 		if (port < 49152 || port > 65535)
 			printf("Bad port number %i, please insert a port number between 49152 and 65535 \n", port);
 	} while (port < 49152 || port > 65535);
+
+	printf("Operation to be send to: %s:%i\n\n", addr, port); // print the client info
 
 // INPUT ASSIGNMENT
 	do {
